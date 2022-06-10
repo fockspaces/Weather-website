@@ -1,15 +1,18 @@
 const path = require("path");
 const express = require("express");
+const hbs = require("hbs");
 
 const app = express();
 
 // Define paths for Express config
 const publicDir = path.join(__dirname, "../public");
-const viewsPath = path.join(__dirname, "../templates");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
 
 // Setup handlebars engine and views location
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
+hbs.registerPartials(partialsPath);
 
 // Setup static directory to serve
 app.use(express.static(publicDir));
@@ -39,6 +42,22 @@ app.get("/weather", (req, res) => {
   res.send({
     forcast: "It is raining",
     location: "Taipei",
+  });
+});
+
+app.get("/help/*", (req, res) => {
+  res.render("error", {
+    title: "404",
+    name: "Fock space",
+    errorMessage: "Help Page not found.",
+  });
+});
+
+app.get("*", (req, res) => {
+  res.render("error", {
+    title: "404",
+    name: "Fock space",
+    errorMessage: "Page not found.",
   });
 });
 
