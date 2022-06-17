@@ -2,7 +2,7 @@ const request = require("request");
 
 const forecast = (address, callback) => {
   const url = `http://api.weatherstack.com/current?access_key=6148433823afec09a114140680eaa387&query=${address}`;
-  request({ url, json: true }, (error, { body }) => {
+  request({ url, json: true }, (error, { body } = {}) => {
     if (error) {
       callback("Unable to connect to Weather API!", undefined);
     } else if (body.error) {
